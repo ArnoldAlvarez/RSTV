@@ -26,6 +26,9 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 .video-card blockquote.instagram-media{width:100% !important;max-width:100% !important;min-width:100% !important;border-radius:10px;overflow:visible;background:#000;margin:0 auto !important;}
 #game-container{width:100%;max-width:400px;margin-top:20px;position:relative;}
 #game{position:relative;width:100%;height:500px;background:#111;overflow:hidden;border:2px solid #d4af37;transition:all 0.5s;}
+#controls{position:absolute;top:5px;left:50%;transform:translateX(-50%);display:flex;justify-content:center;gap:10px;margin-bottom:10px;z-index:5;}
+#controls button{padding:10px 12px;font-size:1.3rem;border-radius:50%;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
+#controls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
 .hit-zone{position:absolute;bottom:20px;width:100%;height:50px;display:flex;justify-content:space-around;z-index:2;}
 .socket{width:22%;max-width:60px;height:50px;border:2px dashed #d4af37;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:1.5rem;transition: transform 0.2s, background 0.2s, box-shadow 0.2s;}
 .socket.active{background:#ffd700;box-shadow:0 0 30px #ffd700,0 0 60px #ffd700;color:#000;transform:scale(1.2);}
@@ -36,9 +39,6 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 @keyframes particleMove{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-50px) translateX(30px) scale(0);opacity:0;}}
 #score{margin-top:15px;font-size:1.2rem;color:#ffd700;z-index:2;}
 #comboDisplay{position:absolute;top:25%;font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;z-index:3;transition:opacity 0.3s ease;}
-#controls{display:flex;justify-content:center;gap:10px;margin-top:10px;flex-wrap:wrap;z-index:2;}
-#controls button{margin-top:10px;padding:10px 12px;font-size:1.3rem;border-radius:50%;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
-#controls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
 #chooseControls{display:flex;justify-content:center;gap:10px;margin-top:15px;flex-wrap:wrap;}
 #chooseControls button{border-radius:10px;width:65px;height:65px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;transition:0.3s;touch-action:manipulation;}
 #chooseControls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
@@ -47,6 +47,9 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 #nosotros .member img{width:120px;height:120px;border-radius:50%;border:3px solid #ffd700;object-fit:cover;transition:0.3s;}
 #nosotros .member img:hover{transform:scale(1.05);box-shadow:0 0 15px #ffd700;}
 #nosotros .member p{max-width:150px;text-align:center;color:#fff;}
+#game-over-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ffecb3);color:#000;padding:25px 30px;border-radius:15px;border:3px solid #b8860b;display:none;flex-direction:column;align-items:center;gap:12px;z-index:10;text-align:center;}
+#game-over-panel button{padding:10px 15px;background:#b8860b;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:0.3s;}
+#game-over-panel button:hover{background:#ffd700;color:#000;}
 @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.active{transform:translateX(0)}.menu-toggle{display:block;} main{margin-left:0;width:100%;}}
 </style>
 </head>
@@ -102,6 +105,12 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 <div class="socket" data-key="ArrowRight">→</div>
 </div>
 <div id="comboDisplay">COMBO!</div>
+<div id="game-over-panel">
+<h2>Perdiste 😢</h2>
+<p id="final-score">Puntaje: 0</p>
+<p id="final-combo">Combo Máximo: 0</p>
+<button id="retryBtn">Reintentar</button>
+</div>
 </div>
 
 <div id="chooseControls">
@@ -185,6 +194,10 @@ const startRestartBtn=document.getElementById("startRestartBtn");
 const pauseBtn=document.getElementById("pauseBtn");
 const musicBtn=document.getElementById("musicBtn");
 const chooseButtons=document.querySelectorAll("#chooseControls button");
+const gameOverPanel=document.getElementById("game-over-panel");
+const finalScore=document.getElementById("final-score");
+const finalCombo=document.getElementById("final-combo");
+const retryBtn=document.getElementById("retryBtn");
 
 function resetGame(){
   arrowsArr.forEach(a=>a.remove());
@@ -194,6 +207,7 @@ function resetGame(){
   document.body.style.filter = 'none';
   clearInterval(arrowInterval);
   paused=false;
+  gameOverPanel.style.display="none";
 }
 
 function startGame(){
@@ -207,6 +221,8 @@ function startGame(){
 startRestartBtn.addEventListener("click",()=>{ startGame(); });
 pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
 musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i> Música' : '<i class="fa-solid fa-volume-high"></i> Música'; });
+
+retryBtn.addEventListener("click",()=>{ startGame(); });
 
 function createArrow(){ 
   const index=Math.floor(Math.random()*4); 
@@ -230,7 +246,7 @@ function moveArrows(){
     arrow.style.top=top+speedVal+"px"; 
     if(top>gameElem.clientHeight){ 
       arrow.remove(); arrowsArr.splice(i,1); comboVal=0; missedCount++; updateComboDisplay(); 
-      scoreVal-=5; if(scoreVal<0)scoreVal=0; updateScore(); 
+      scoreVal=Math.max(0,scoreVal); updateScore(); 
       if(missedCount>=maxMisses){ endGameLose(); } 
     }
   });
@@ -282,11 +298,13 @@ setInterval(()=>{ if(gameStarted && !paused) moveArrows(); },20);
 function endGameLose(){
   gameStarted=false; paused=true; musicElem.pause(); arrowsArr.forEach(a=>a.remove()); arrowsArr=[];
   clearInterval(arrowInterval);
-  comboDisplayElem.style.display="block"; comboDisplayElem.textContent="PERDISTE 😢";
-  comboDisplayElem.style.color="#ff0000";
+  comboDisplayElem.style.display="none";
+  gameOverPanel.style.display="flex";
+  finalScore.textContent = `Puntaje: ${scoreVal}`;
+  finalCombo.textContent = `Combo Máximo: ${maxComboRecord}`;
   document.body.style.filter = 'hue-rotate(0deg) saturate(1) brightness(1)';
-  scoreDisplayElem.textContent+=` | Máx Combo: ${maxComboRecord} | Récord Final: ${recordVal}`;
 }
+
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
 </body>

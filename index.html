@@ -179,33 +179,36 @@ const musicElem=document.getElementById("music");
 const hitStartVal=gameElem.clientHeight-80;
 const hitEndVal=gameElem.clientHeight-30;
 const BPM=120; const msPerBeat=60000/BPM;
+let arrowInterval=null;
 
 const startRestartBtn=document.getElementById("startRestartBtn");
 const pauseBtn=document.getElementById("pauseBtn");
 const musicBtn=document.getElementById("musicBtn");
 const chooseButtons=document.querySelectorAll("#chooseControls button");
 
-startRestartBtn.addEventListener("click",()=>{
-  resetGame();
-  musicElem.play(); gameStarted=true; startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i> Reiniciar';
-  arrowLoop();
-});
-
-pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
-
-musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i> Música' : '<i class="fa-solid fa-volume-high"></i> Música'; });
-
 function resetGame(){
   arrowsArr.forEach(a=>a.remove());
   arrowsArr=[]; scoreVal=0; comboVal=0; speedVal=3; missedCount=0;
   updateScore(); updateComboDisplay(); gameElem.querySelectorAll(".arrow").forEach(a=>a.remove());
-  comboDisplayElem.style.display="none";
+  comboDisplayElem.style.display="none"; comboDisplayElem.style.color="#ffd700";
   document.body.style.filter = 'none';
-  comboDisplayElem.style.color="#ffd700";
+  clearInterval(arrowInterval);
+  paused=false;
 }
 
+function startGame(){
+  resetGame();
+  gameStarted=true;
+  arrowInterval=setInterval(()=>{ if(!paused) createArrow(); }, msPerBeat);
+  musicElem.play();
+  startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i> Reiniciar';
+}
+
+startRestartBtn.addEventListener("click",()=>{ startGame(); });
+pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
+musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i> Música' : '<i class="fa-solid fa-volume-high"></i> Música'; });
+
 function createArrow(){ 
-  if(paused) return; 
   const index=Math.floor(Math.random()*4); 
   const key=keysArr[index]; 
   const symbol=symbolsArr[index]; 
@@ -274,15 +277,15 @@ function updateScore(){
 
 chooseButtons.forEach(btn=>{ btn.addEventListener("click",()=>{ checkArrow(btn.dataset.key); }); });
 document.addEventListener("keydown",(e)=>{ checkArrow(e.key); });
-setInterval(()=>{ if(!paused) moveArrows(); },20);
-
-function arrowLoop(){if(gameStarted && !paused){createArrow(); setTimeout(arrowLoop, msPerBeat);}}
+setInterval(()=>{ if(gameStarted && !paused) moveArrows(); },20);
 
 function endGameLose(){
   gameStarted=false; paused=true; musicElem.pause(); arrowsArr.forEach(a=>a.remove()); arrowsArr=[];
-  comboDisplayElem.style.display="block"; comboDisplayElem.textContent="PERDISTE 😢"; comboDisplayElem.style.color="#ff0000";
+  clearInterval(arrowInterval);
+  comboDisplayElem.style.display="block"; comboDisplayElem.textContent="PERDISTE 😢";
+  comboDisplayElem.style.color="#ff0000";
   document.body.style.filter = 'hue-rotate(0deg) saturate(1) brightness(1)';
-  alert(`Juego terminado!\nTu puntaje: ${scoreVal}\nMejor combo: ${maxComboRecord}\nRécord general: ${recordVal}`);
+  scoreDisplayElem.textContent+=` | Máx Combo: ${maxComboRecord} | Récord Final: ${recordVal}`;
 }
 </script>
 <script async src="//www.instagram.com/embed.js"></script>

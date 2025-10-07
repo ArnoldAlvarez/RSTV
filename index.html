@@ -89,9 +89,9 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 <p>Presiona la flecha correcta al llegar al socket 💥🎵</p>
 <div id="game-container">
 <div id="controls">
-<button id="startRestartBtn"><i class="fa-solid fa-play"></i></button>
-<button id="pauseBtn"><i class="fa-solid fa-pause"></i></button>
-<button id="musicBtn"><i class="fa-solid fa-volume-high"></i></button>
+<button id="startRestartBtn"><i class="fa-solid fa-play"></i> Iniciar</button>
+<button id="pauseBtn"><i class="fa-solid fa-pause"></i> Pausar</button>
+<button id="musicBtn"><i class="fa-solid fa-volume-high"></i> Música</button>
 </div>
 
 <div id="game">
@@ -173,7 +173,7 @@ const comboDisplayElem=document.getElementById("comboDisplay");
 const socketsElem=document.querySelectorAll(".socket");
 const keysArr=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
 const symbolsArr=["↑","↓","←","→"];
-let arrowsArr=[], scoreVal=0, comboVal=0, speedVal=3, recordVal=localStorage.getItem("danceRecord")||0;
+let arrowsArr=[], scoreVal=0, comboVal=0, speedVal=3, recordVal=localStorage.getItem("danceRecord")||0, maxComboRecord=localStorage.getItem("maxComboRecord")||0;
 let gameStarted=false, paused=false, missedCount=0, maxMisses=20;
 const musicElem=document.getElementById("music");
 const hitStartVal=gameElem.clientHeight-80;
@@ -187,13 +187,13 @@ const chooseButtons=document.querySelectorAll("#chooseControls button");
 
 startRestartBtn.addEventListener("click",()=>{
   resetGame();
-  if(!gameStarted){ musicElem.play(); gameStarted=true; startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i>'; arrowLoop();}
-  else { musicElem.currentTime=0; musicElem.play(); }
+  musicElem.play(); gameStarted=true; startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i> Reiniciar';
+  arrowLoop();
 });
 
 pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
 
-musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>'; });
+musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i> Música' : '<i class="fa-solid fa-volume-high"></i> Música'; });
 
 function resetGame(){
   arrowsArr.forEach(a=>a.remove());
@@ -201,6 +201,7 @@ function resetGame(){
   updateScore(); updateComboDisplay(); gameElem.querySelectorAll(".arrow").forEach(a=>a.remove());
   comboDisplayElem.style.display="none";
   document.body.style.filter = 'none';
+  comboDisplayElem.style.color="#ffd700";
 }
 
 function createArrow(){ 
@@ -243,6 +244,7 @@ function checkArrow(keyPressed){
       arrowsArr.splice(i,1);
       scoreVal+=10+comboVal*2;
       comboVal+=1;
+      if(comboVal>maxComboRecord){ maxComboRecord=comboVal; localStorage.setItem("maxComboRecord",maxComboRecord);}
       updateScore();
       updateComboDisplay();
       const idx=keysArr.indexOf(keyPressed);
@@ -252,10 +254,7 @@ function checkArrow(keyPressed){
       setTimeout(()=>socket.classList.remove("active"),200);
       speedVal+=0.05;
       if(scoreVal>recordVal){recordVal=scoreVal;localStorage.setItem("danceRecord",recordVal);}
-      // Efecto psicodélico según combo
-      if(comboVal>=5){
-        document.body.style.filter = `hue-rotate(${Math.random()*360}deg) saturate(${1+comboVal/5}) brightness(${1+comboVal/10})`;
-      }
+      if(comboVal>=5){ document.body.style.filter = `hue-rotate(${Math.random()*360}deg) saturate(${1+comboVal/5}) brightness(${1+comboVal/10})`; }
     }
   });
 }
@@ -280,15 +279,10 @@ setInterval(()=>{ if(!paused) moveArrows(); },20);
 function arrowLoop(){if(gameStarted && !paused){createArrow(); setTimeout(arrowLoop, msPerBeat);}}
 
 function endGameLose(){
-  gameStarted=false;
-  paused=true;
-  musicElem.pause();
-  arrowsArr.forEach(a=>a.remove());
-  arrowsArr=[];
-  comboDisplayElem.style.display="block";
-  comboDisplayElem.textContent="PERDISTE";
-  comboDisplayElem.style.color="#ff0000";
+  gameStarted=false; paused=true; musicElem.pause(); arrowsArr.forEach(a=>a.remove()); arrowsArr=[];
+  comboDisplayElem.style.display="block"; comboDisplayElem.textContent="PERDISTE 😢"; comboDisplayElem.style.color="#ff0000";
   document.body.style.filter = 'hue-rotate(0deg) saturate(1) brightness(1)';
+  alert(`Juego terminado!\nTu puntaje: ${scoreVal}\nMejor combo: ${maxComboRecord}\nRécord general: ${recordVal}`);
 }
 </script>
 <script async src="//www.instagram.com/embed.js"></script>

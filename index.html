@@ -17,29 +17,25 @@ main{margin-left:230px;width:calc(100% - 230px);transition:margin-left 0.3s ease
 section{min-height:100vh;padding:80px 25px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at center,#111 0%,#000 100%);border-bottom:1px solid rgba(255,215,0,0.1);}
 h1{font-size:2.5em;background:linear-gradient(90deg,#ffd700,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:15px;}
 p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
-#selector-baile{margin-top:15px;padding:10px 15px;font-size:1.1rem;border-radius:10px;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;}
+#selector-baile{margin-top:15px;padding:10px 15px;font-size:1.1rem;border-radius:10px;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
 .video-group{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;}
-.video-card{background:#111;border:2px solid #d4af37;border-radius:10px;overflow:visible;width:100%;max-width:550px;transition:0.3s;margin-bottom:25px;}
-.video-card:hover{transform:scale(1.03);box-shadow:0 0 20px #ffd700;}
-.video-card blockquote.instagram-media{width:100%!important;max-width:100%!important;min-width:100%!important;border-radius:10px;overflow:visible;background:#000;margin:0 auto!important;}
-#game{position:relative;width:100%;max-width:400px;height:500px;background:#111;border:2px solid #d4af37;overflow:hidden;margin-top:70px;}
+.video-card{background:#111;border:2px solid #d4af37;border-radius:10px;overflow:visible;width:100%;max-width:550px;margin-bottom:25px;}
+#game{position:relative;width:100%;max-width:400px;height:500px;background:#111;overflow:hidden;border:2px solid #d4af37;margin-top:20px;}
+#controls-container{margin-top:15px;}
+#controls{display:flex;justify-content:center;gap:10px;}
+#controls button{padding:10px 12px;font-size:1.3rem;border-radius:50%;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
+#controls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
 .hit-zone{position:absolute;bottom:20px;width:100%;height:50px;display:flex;justify-content:space-around;}
 .socket{width:22%;max-width:60px;height:50px;border:2px dashed #d4af37;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:1.5rem;}
-.socket.active{background:#ffd700;color:#000;box-shadow:0 0 30px #ffd700;}
-.arrow{width:22%;max-width:60px;height:50px;text-align:center;line-height:50px;font-size:2rem;color:#ffd700;border:2px solid #b8860b;border-radius:8px;position:absolute;top:0;text-shadow:0 0 10px #ffd700;}
-#comboDisplay{position:absolute;top:25%;left:50%;transform:translateX(-50%);font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;}
+.socket.active{background:#ffd700;box-shadow:0 0 30px #ffd700;color:#000;transform:scale(1.2);}
+.arrow{width:22%;max-width:60px;height:50px;text-align:center;line-height:50px;font-size:2rem;font-weight:bold;color:#ffd700;border:2px solid #b8860b;border-radius:8px;position:absolute;top:0;transition: top 0.02s linear;}
 #score{margin-top:15px;font-size:1.2rem;color:#ffd700;}
-#controls{display:flex;justify-content:center;gap:10px;margin-top:20px;}
-#controls button{padding:10px 15px;font-size:1.3rem;border-radius:10px;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;}
-#controls button:hover{box-shadow:0 0 10px #ffd700;}
-#chooseControls{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;}
-#chooseControls button{width:65px;height:65px;border-radius:10px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;}
-#chooseControls button:hover{box-shadow:0 0 10px #ffd700;}
-#game-over-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;max-width:350px;background:linear-gradient(160deg,#000,#111);border:2px solid #ffd700;border-radius:15px;color:#fff;padding:25px;text-align:center;display:none;flex-direction:column;align-items:center;gap:15px;box-shadow:0 0 25px rgba(255,215,0,0.5);}
-#game-over-panel h2{font-size:1.8rem;color:#ffd700;}
-#game-over-panel button{padding:10px 20px;background:#ffd700;color:#000;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:0.3s;}
-#game-over-panel button:hover{background:#fff;color:#000;box-shadow:0 0 10px #ffd700;}
-@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.active{transform:translateX(0)}.menu-toggle{display:block;} main{margin-left:0;width:100%;}}
+#comboDisplay{position:absolute;top:25%;font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;}
+#chooseControls{display:flex;justify-content:center;gap:10px;margin-top:15px;flex-wrap:wrap;}
+#chooseControls button{border-radius:10px;width:65px;height:65px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;}
+#game-over-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ffecb3);color:#000;padding:25px 30px;border-radius:15px;display:none;flex-direction:column;align-items:center;text-align:center;}
+#game-over-panel button{padding:10px 15px;background:#b8860b;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:0.3s;}
+#game-over-panel button:hover{background:#ffd700;color:#000;}
 </style>
 </head>
 <body>
@@ -80,6 +76,15 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <h1>Juego</h1>
 <p>Presiona la flecha correcta al llegar al socket 💥🎵</p>
 
+<!-- Controles debajo del texto -->
+<div id="controls-container">
+<div id="controls">
+<button id="startRestartBtn"><i class="fa-solid fa-play"></i></button>
+<button id="pauseBtn"><i class="fa-solid fa-pause"></i></button>
+<button id="musicBtn"><i class="fa-solid fa-volume-high"></i></button>
+</div>
+</div>
+
 <div id="game">
 <div class="hit-zone">
 <div class="socket" data-key="ArrowUp">↑</div>
@@ -88,20 +93,13 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <div class="socket" data-key="ArrowRight">→</div>
 </div>
 <div id="comboDisplay">COMBO!</div>
-
 <div id="game-over-panel">
-<h2>🎮 Juego Terminado 🎮</h2>
+<h2>¡Juego Terminado!</h2>
 <p id="final-score">Puntuación = 0</p>
-<p id="final-combo">Máximo combo = 0</p>
-<p>Perdiste 😢 ¿Quieres reintentar para superar tu puntuación?</p>
+<p id="final-combo">Combo alcanzado = 0</p>
+<p>¿Quieres intentar mejorar tu puntuación?</p>
 <button id="retryBtn">Reintentar</button>
 </div>
-</div>
-
-<div id="controls">
-<button id="startRestartBtn"><i class="fa-solid fa-play"></i> Iniciar</button>
-<button id="pauseBtn"><i class="fa-solid fa-pause"></i> Pausar</button>
-<button id="musicBtn"><i class="fa-solid fa-volume-high"></i> Música</button>
 </div>
 
 <div id="chooseControls">
@@ -111,7 +109,7 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <button data-key="ArrowRight">→</button>
 </div>
 
-<div id="score">Puntaje: 0 | Combo: 0 | Flechas restantes: 20</div>
+<div id="score">Puntaje: 0 | Combo: 0</div>
 <audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
 </section>
 
@@ -121,110 +119,44 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <div class="member"><img src="https://via.placeholder.com/120"><p>Frase 1</p></div>
 <div class="member"><img src="https://via.placeholder.com/120"><p>Frase 2</p></div>
 <div class="member"><img src="https://via.placeholder.com/120"><p>Frase 3</p></div>
+<div class="member"><img src="https://via.placeholder.com/120"><p>Frase 4</p></div>
+<div class="member"><img src="https://via.placeholder.com/120"><p>Frase 5</p></div>
+<div class="member"><img src="https://via.placeholder.com/120"><p>Frase 6</p></div>
 </div>
 </section>
 
 <script>
-// Menú lateral
-document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>{
-a.addEventListener('click', e=>{
-e.preventDefault();
-document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-if(window.innerWidth<=768) document.querySelector('.sidebar').classList.remove('active');
-});
-});
 document.querySelector('.menu-toggle').addEventListener('click',()=>{document.querySelector('.sidebar').classList.toggle('active');});
-
-// Coreografías
-const selectorBaile=document.getElementById('selector-baile');
-const contVideos=document.getElementById('videos-coreografia');
-const videosPorBaile={
-'baile1':['<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPes2bgAP6o/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14"></blockquote>']
-};
-selectorBaile.addEventListener('change',()=>{
-const val=selectorBaile.value;
-contVideos.innerHTML='';
-if(videosPorBaile[val]){
-videosPorBaile[val].forEach(code=>{
-const card=document.createElement('div');
-card.className='video-card';
-card.innerHTML=code;
-contVideos.appendChild(card);
-});
-if(window.instgrm){window.instgrm.Embeds.process();}
-}
-});
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}));
 
 // Juego
-const gameElem=document.getElementById("game");
+const game=document.getElementById("game");
 const scoreElem=document.getElementById("score");
 const comboElem=document.getElementById("comboDisplay");
 const sockets=document.querySelectorAll(".socket");
 const keys=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
-let arrows=[],score=0,combo=0,missed=0,maxMisses=20,speed=3;
-let started=false,paused=false;
+const symbols=["↑","↓","←","→"];
+let arrows=[],score=0,combo=0,speed=3,started=false,paused=false,missed=0,maxMiss=20;
 const music=document.getElementById("music");
-const gameOver=document.getElementById("game-over-panel");
-const finalScore=document.getElementById("final-score");
-const finalCombo=document.getElementById("final-combo");
-
-function createArrow(){
-const i=Math.floor(Math.random()*4);
-const arrow=document.createElement("div");
-arrow.classList.add("arrow");
-arrow.textContent=sockets[i].textContent;
-arrow.dataset.key=keys[i];
-arrow.style.left=sockets[i].offsetLeft+"px";
-arrow.style.top="-60px";
-gameElem.appendChild(arrow);
-arrows.push(arrow);
-}
-function moveArrows(){
-arrows.forEach((a,i)=>{
-let top=parseInt(a.style.top);
-a.style.top=top+speed+"px";
-if(top>gameElem.clientHeight){
-a.remove();arrows.splice(i,1);combo=0;missed++;
-if(missed>=maxMisses)endGame();
-}
-});
-}
-function updateScore(){scoreElem.textContent=`Puntaje: ${score} | Combo: ${combo} | Flechas restantes: ${maxMisses-missed}`;}
-function checkArrow(k){
-arrows.forEach((a,i)=>{
-let top=parseInt(a.style.top);
-if(k===a.dataset.key&&top>gameElem.clientHeight-80&&top<gameElem.clientHeight-30){
-a.remove();arrows.splice(i,1);
-score+=10+combo*2;combo++;
-updateScore();
-comboElem.style.display="block";
-comboElem.textContent=`COMBO x${combo}!`;
-setTimeout(()=>comboElem.style.display="none",1000);
-}
-});
-}
-function startGame(){
-arrows.forEach(a=>a.remove());arrows=[];score=0;combo=0;missed=0;speed=3;updateScore();
-started=true;paused=false;music.play();
-clearInterval(window.arrowGen);
-window.arrowGen=setInterval(()=>{if(!paused)createArrow();},600);
-clearInterval(window.arrowMove);
-window.arrowMove=setInterval(()=>{if(started&&!paused)moveArrows();},20);
-gameOver.style.display="none";
-}
-function endGame(){
-started=false;paused=true;music.pause();
-clearInterval(window.arrowGen);clearInterval(window.arrowMove);
-gameOver.style.display="flex";
-finalScore.textContent=`Puntuación = ${score}`;
-finalCombo.textContent=`Máximo combo = ${combo}`;
-}
-document.getElementById("startRestartBtn").onclick=()=>startGame();
-document.getElementById("pauseBtn").onclick=()=>{paused=!paused;paused?music.pause():music.play();};
-document.getElementById("musicBtn").onclick=()=>{music.muted=!music.muted;};
-document.getElementById("retryBtn").onclick=()=>startGame();
-document.addEventListener("keydown",e=>checkArrow(e.key));
-document.querySelectorAll("#chooseControls button").forEach(b=>b.onclick=()=>checkArrow(b.dataset.key));
+const hitStart=game.clientHeight-80,hitEnd=game.clientHeight-30;
+let interval=null;
+const startBtn=document.getElementById("startRestartBtn"),pauseBtn=document.getElementById("pauseBtn"),musicBtn=document.getElementById("musicBtn"),retryBtn=document.getElementById("retryBtn");
+const overPanel=document.getElementById("game-over-panel"),finalScore=document.getElementById("final-score"),finalCombo=document.getElementById("final-combo");
+function reset(){arrows.forEach(a=>a.remove());arrows=[];score=0;combo=0;speed=3;missed=0;updateScore();comboElem.style.display="none";overPanel.style.display="none";}
+function start(){reset();started=true;music.play();interval=setInterval(()=>{if(!paused)createArrow();},500);}
+function createArrow(){const i=Math.floor(Math.random()*4),arrow=document.createElement("div");arrow.classList.add("arrow");arrow.textContent=symbols[i];arrow.dataset.key=keys[i];arrow.style.left=(i*25+5)+"%";arrow.style.top="-60px";game.appendChild(arrow);arrows.push(arrow);}
+function move(){arrows.forEach((a,i)=>{let t=parseInt(a.style.top);a.style.top=t+speed+"px";if(t>game.clientHeight){a.remove();arrows.splice(i,1);combo=0;missed++;updateScore();if(missed>=maxMiss)end();}});}
+function check(k){arrows.forEach((a,i)=>{let t=parseInt(a.style.top);if(k===a.dataset.key&&t>=hitStart&&t<=hitEnd){a.remove();arrows.splice(i,1);score+=10+combo*2;combo++;updateScore();showCombo();const s=document.querySelector(`.socket[data-key='${k}']`);s.classList.add("active");setTimeout(()=>s.classList.remove("active"),150);}});}
+function updateScore(){scoreElem.textContent=`Puntaje: ${score} | Combo: ${combo}`;}
+function showCombo(){if(combo>=3){comboElem.style.display="block";comboElem.textContent=`COMBO x${combo}!`;setTimeout(()=>comboElem.style.display="none",2000);}}
+function end(){started=false;paused=true;music.pause();clearInterval(interval);arrows.forEach(a=>a.remove());overPanel.style.display="flex";finalScore.textContent=`Puntuación = ${score}`;finalCombo.textContent=`Combo alcanzado = ${combo}`;}
+startBtn.onclick=()=>{started?reset():start();};
+pauseBtn.onclick=()=>{paused=!paused;paused?music.pause():music.play();};
+musicBtn.onclick=()=>{music.muted=!music.muted;musicBtn.innerHTML=music.muted?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-volume-high"></i>';};
+retryBtn.onclick=()=>start();
+setInterval(()=>{if(started&&!paused)move();},20);
+document.addEventListener("keydown",e=>check(e.key));
+document.querySelectorAll("#chooseControls button").forEach(b=>b.addEventListener("click",()=>check(b.dataset.key)));
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
 </body>

@@ -60,7 +60,41 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 .particles{position:absolute;width:10px;height:10px;background:radial-gradient(circle,#ffd700,#b8860b);border-radius:50%;pointer-events:none;opacity:0.8;animation:particleMove 0.8s forwards;z-index:3;}
 @keyframes particleMove{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-50px) translateX(30px) scale(0);opacity:0;}}
 #score{margin-top:15px;font-size:1.2rem;color:#ffd700;z-index:2;}
-#comboDisplay{position:absolute;top:25%;font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;z-index:3;}
+#comboDisplay {
+  position: absolute;
+  top: 25%;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 20px #ffd700, 0 0 40px #fff;
+  display: none;
+  z-index: 3;
+  animation: comboFlash 1s ease forwards;
+}
+
+@keyframes comboFlash {
+  0% { transform: scale(1); opacity: 0; }
+  10% { transform: scale(1.5); opacity: 1; text-shadow: 0 0 25px #fff, 0 0 50px #ffd700; }
+  50% { transform: scale(1.8); text-shadow: 0 0 40px #fff, 0 0 80px #ffd700; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.particleCombo {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd700, #fff);
+  pointer-events: none;
+  opacity: 0.8;
+  animation: particleComboMove 0.8s forwards;
+  z-index: 4;
+}
+
+@keyframes particleComboMove {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-50px) translateX(30px) scale(0); opacity: 0; }
+}
 #controls{display:flex;justify-content:center;gap:10px;margin-top:10px;flex-wrap:wrap;z-index:2;}
 #controls button{margin-top:10px;padding:10px 12px;font-size:1.3rem;border-radius:50%;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
 #controls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
@@ -235,7 +269,32 @@ function createArrow(){ if(paused) return; const index=Math.floor(Math.random()*
 function moveArrows(){ arrowsArr.forEach((arrow,i)=>{let top=parseInt(arrow.style.top); arrow.style.top=top+speedVal+"px"; if(top>gameElem.clientHeight){arrow.remove();arrowsArr.splice(i,1);comboVal=0;updateComboDisplay();scoreVal-=5;updateScore();}});}
 function createParticles(x,y){for(let i=0;i<12;i++){const p=document.createElement("div");p.classList.add("particles");p.style.left=x+"px";p.style.top=y+"px";gameElem.appendChild(p);setTimeout(()=>p.remove(),800);}}
 function checkArrow(keyPressed){arrowsArr.forEach((arrow,i)=>{let top=parseInt(arrow.style.top);if(keyPressed===arrow.dataset.key && top>=hitStartVal && top<=hitEndVal){arrow.classList.add("hit");setTimeout(()=>arrow.remove(),300);arrowsArr.splice(i,1);scoreVal+=10+comboVal*2;comboVal+=1;updateScore();updateComboDisplay();const idx=keysArr.indexOf(keyPressed);const socket=socketsElem[idx];createParticles(parseInt(socket.offsetLeft)+socket.offsetWidth/2, top+25);socket.classList.add("active");setTimeout(()=>socket.classList.remove("active"),200);speedVal+=0.05;if(scoreVal>recordVal){recordVal=scoreVal;localStorage.setItem("danceRecord",recordVal);}}});}
-function updateComboDisplay(){ if(comboVal>=3){ comboDisplayElem.style.display="block"; comboDisplayElem.textContent=`COMBO x${comboVal}!`; comboDisplayElem.style.opacity=1; setTimeout(()=>comboDisplayElem.style.opacity=0,400);}else comboDisplayElem.style.display="none";}
+function updateComboDisplay() {
+  if(comboVal >= 3) {
+    comboDisplayElem.style.display = "block";
+    comboDisplayElem.textContent = COMBO x${comboVal}!;
+    
+    // Crear partículas
+    const socketIndex = Math.floor(Math.random() * socketsElem.length);
+    const socket = socketsElem[socketIndex];
+    const socketX = socket.offsetLeft + socket.offsetWidth / 2;
+    const socketY = socket.offsetTop;
+    
+    for(let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particleCombo');
+      p.style.left = ${socketX}px;
+      p.style.top = ${socketY}px;
+      gameElem.appendChild(p);
+      setTimeout(() => p.remove(), 800);
+    }
+    
+    // Animación de combo
+    comboDisplayElem.style.animation = 'comboFlash 1s ease forwards';
+  } else {
+    comboDisplayElem.style.display = "none";
+  }
+}
 function updateScore(){ scoreDisplayElem.textContent=`Puntaje: ${scoreVal} | Combo: ${comboVal} | Récord: ${recordVal}`;}
 chooseButtons.forEach(btn=>{ btn.addEventListener("click",()=>{ checkArrow(btn.dataset.key); }); });
 document.addEventListener("keydown",(e)=>{ checkArrow(e.key); });

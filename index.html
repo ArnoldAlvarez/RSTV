@@ -147,9 +147,11 @@ document.querySelector('.menu-toggle').addEventListener('click',()=>{
 const selectorBaile=document.getElementById('selector-baile');
 const contVideos=document.getElementById('videos-coreografia');
 const videosPorBaile={
-'baile1':['https://www.instagram.com/p/VIDEO1/embed/','https://www.instagram.com/p/VIDEO2/embed/'],
+'baile1':['https://www.instagram.com/reel/DPes2bgAP6o/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==/embed/','https://www.instagram.com/p/VIDEO2/embed/'],
 'baile2':['https://www.instagram.com/p/VIDEO3/embed/','https://www.instagram.com/p/VIDEO4/embed/']
 };
+
+  
 selectorBaile.addEventListener('change',()=>{
   const val=selectorBaile.value;
   contVideos.innerHTML='';

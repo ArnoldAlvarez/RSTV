@@ -13,29 +13,41 @@ body{font-family:'Poppins',sans-serif;background:#000;color:#fff;display:flex;ov
 .sidebar a{text-decoration:none;color:#fff;background:linear-gradient(90deg,#111,#222);padding:12px 20px;margin:8px 0;border-radius:10px;width:80%;text-align:center;transition:0.3s;font-weight:600;border:1px solid rgba(255,215,0,0.3);}
 .sidebar a:hover{background:linear-gradient(90deg,#ffd700,#fff);color:#000;transform:scale(1.08);box-shadow:0 0 10px rgba(255,215,0,0.8);}
 .menu-toggle{display:none;position:fixed;top:20px;left:20px;background:linear-gradient(90deg,#ffd700,#fff);border:none;color:#000;padding:10px 15px;font-size:22px;border-radius:8px;z-index:1100;cursor:pointer;box-shadow:0 0 10px rgba(255,215,0,0.7);}
+.menu-toggle:hover{transform:scale(1.1);}
 main{margin-left:230px;width:calc(100% - 230px);transition:margin-left 0.3s ease;}
-section{min-height:100vh;padding:80px 25px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at center,#111 0%,#000 100%);border-bottom:1px solid rgba(255,215,0,0.1);}
+section{min-height:100vh;padding:80px 25px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at center,#111 0%,#000 100%);border-bottom:1px solid rgba(255,215,0,0.1);transition:all 0.5s;}
 h1{font-size:2.5em;background:linear-gradient(90deg,#ffd700,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:15px;}
-p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
+p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s;}
 #selector-baile{margin-top:15px;padding:10px 15px;font-size:1.1rem;border-radius:10px;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
+#selector-baile:hover{box-shadow:0 0 10px #ffd700;}
 .video-group{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;}
-.video-card{background:#111;border:2px solid #d4af37;border-radius:10px;overflow:visible;width:100%;max-width:550px;margin-bottom:25px;}
-#game{position:relative;width:100%;max-width:400px;height:500px;background:#111;overflow:hidden;border:2px solid #d4af37;margin-top:20px;}
-#controls-container{margin-top:15px;}
-#controls{display:flex;justify-content:center;gap:10px;}
+.video-card{background:#111;border:2px solid #d4af37;border-radius:10px;overflow:visible;width:100%;max-width:550px;transition:0.3s;margin-bottom:25px;}
+.video-card:hover{transform:scale(1.03);box-shadow:0 0 20px #ffd700;}
+.video-card blockquote.instagram-media{width:100% !important;max-width:100% !important;min-width:100% !important;border-radius:10px;overflow:visible;background:#000;margin:0 auto !important;}
+#game-container{width:100%;max-width:400px;margin-top:20px;position:relative;}
+#game{position:relative;width:100%;height:500px;background:#111;overflow:hidden;border:2px solid #d4af37;transition:all 0.5s;margin-top:20px;}
+#controls-container{display:flex;justify-content:center;gap:10px;margin-top:15px;}
 #controls button{padding:10px 12px;font-size:1.3rem;border-radius:50%;border:2px solid #d4af37;background:#111;color:#fff;cursor:pointer;transition:0.3s;}
 #controls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
-.hit-zone{position:absolute;bottom:20px;width:100%;height:50px;display:flex;justify-content:space-around;}
-.socket{width:22%;max-width:60px;height:50px;border:2px dashed #d4af37;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:1.5rem;}
-.socket.active{background:#ffd700;box-shadow:0 0 30px #ffd700;color:#000;transform:scale(1.2);}
-.arrow{width:22%;max-width:60px;height:50px;text-align:center;line-height:50px;font-size:2rem;font-weight:bold;color:#ffd700;border:2px solid #b8860b;border-radius:8px;position:absolute;top:0;transition: top 0.02s linear;}
-#score{margin-top:15px;font-size:1.2rem;color:#ffd700;}
-#comboDisplay{position:absolute;top:25%;font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;}
+.hit-zone{position:absolute;bottom:20px;width:100%;height:50px;display:flex;justify-content:space-around;z-index:2;}
+.socket{width:22%;max-width:60px;height:50px;border:2px dashed #d4af37;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:1.5rem;transition: transform 0.2s, background 0.2s, box-shadow 0.2s;}
+.socket.active{background:#ffd700;box-shadow:0 0 30px #ffd700,0 0 60px #ffd700;color:#000;transform:scale(1.2);}
+.arrow{width:22%;max-width:60px;height:50px;text-align:center;line-height:50px;font-size:2rem;font-weight:bold;color:#ffd700;border:2px solid #b8860b;border-radius:8px;position:absolute;top:0;transition: top 0.02s linear, transform 0.2s ease; z-index:2; text-shadow:0 0 10px #ffd700;}
+.arrow.hit{animation:hitFlash 0.3s forwards;}
+@keyframes hitFlash{0%{transform:scale(1);color:#ffd700;}50%{transform:scale(1.5);color:#fff;}100%{transform:scale(1);color:#ffd700;}}
+.particles{position:absolute;width:10px;height:10px;background:radial-gradient(circle,#ffd700,#b8860b);border-radius:50%;pointer-events:none;opacity:0.8;animation:particleMove 0.8s forwards;z-index:3;}
+@keyframes particleMove{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-50px) translateX(30px) scale(0);opacity:0;}}
+#score{margin-top:15px;font-size:1.2rem;color:#ffd700;z-index:2;}
+#comboDisplay{position:absolute;top:25%;font-size:3rem;font-weight:bold;color:#ffd700;text-shadow:0 0 15px #ffd700;display:none;z-index:3;transition:opacity 0.3s ease;}
 #chooseControls{display:flex;justify-content:center;gap:10px;margin-top:15px;flex-wrap:wrap;}
-#chooseControls button{border-radius:10px;width:65px;height:65px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;}
-#game-over-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ffecb3);color:#000;padding:25px 30px;border-radius:15px;display:none;flex-direction:column;align-items:center;text-align:center;}
-#game-over-panel button{padding:10px 15px;background:#b8860b;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:0.3s;}
+#chooseControls button{border-radius:10px;width:65px;height:65px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;transition:0.3s;touch-action:manipulation;}
+#chooseControls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
+#game-over-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ffecb3);color:#000;padding:25px 30px;border-radius:15px;border:3px solid #b8860b;display:none;flex-direction:column;align-items:center;gap:12px;z-index:10;text-align:center;}
+#game-over-panel h2{margin-bottom:10px;}
+#game-over-panel p{font-weight:bold;}
+#game-over-panel button{padding:10px 15px;background:#b8860b;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:0.3s;}
 #game-over-panel button:hover{background:#ffd700;color:#000;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.active{transform:translateX(0)}.menu-toggle{display:block;} main{margin-left:0;width:100%;}}
 </style>
 </head>
 <body>
@@ -76,13 +88,11 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <h1>Juego</h1>
 <p>Presiona la flecha correcta al llegar al socket 💥🎵</p>
 
-<!-- Controles debajo del texto -->
+<!-- BOTONES DE CONTROL MOVIDOS AQUÍ -->
 <div id="controls-container">
-<div id="controls">
 <button id="startRestartBtn"><i class="fa-solid fa-play"></i></button>
 <button id="pauseBtn"><i class="fa-solid fa-pause"></i></button>
 <button id="musicBtn"><i class="fa-solid fa-volume-high"></i></button>
-</div>
 </div>
 
 <div id="game">
@@ -93,6 +103,8 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <div class="socket" data-key="ArrowRight">→</div>
 </div>
 <div id="comboDisplay">COMBO!</div>
+
+<!-- PANEL FINAL SIMPLIFICADO -->
 <div id="game-over-panel">
 <h2>¡Juego Terminado!</h2>
 <p id="final-score">Puntuación = 0</p>
@@ -109,7 +121,7 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 <button data-key="ArrowRight">→</button>
 </div>
 
-<div id="score">Puntaje: 0 | Combo: 0</div>
+<div id="score">Puntaje: 0 | Combo: 0 | Flechas restantes: 20</div>
 <audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
 </section>
 
@@ -126,37 +138,169 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;}
 </section>
 
 <script>
-document.querySelector('.menu-toggle').addEventListener('click',()=>{document.querySelector('.sidebar').classList.toggle('active');});
-document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}));
+// === MENÚ LATERAL ===
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    if(window.innerWidth<=768) document.querySelector('.sidebar').classList.remove('active');
+  });
+});
+document.querySelector('.menu-toggle').addEventListener('click',()=>{
+  document.querySelector('.sidebar').classList.toggle('active');
+});
 
-// Juego
-const game=document.getElementById("game");
-const scoreElem=document.getElementById("score");
-const comboElem=document.getElementById("comboDisplay");
-const sockets=document.querySelectorAll(".socket");
-const keys=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
-const symbols=["↑","↓","←","→"];
-let arrows=[],score=0,combo=0,speed=3,started=false,paused=false,missed=0,maxMiss=20;
-const music=document.getElementById("music");
-const hitStart=game.clientHeight-80,hitEnd=game.clientHeight-30;
-let interval=null;
-const startBtn=document.getElementById("startRestartBtn"),pauseBtn=document.getElementById("pauseBtn"),musicBtn=document.getElementById("musicBtn"),retryBtn=document.getElementById("retryBtn");
-const overPanel=document.getElementById("game-over-panel"),finalScore=document.getElementById("final-score"),finalCombo=document.getElementById("final-combo");
-function reset(){arrows.forEach(a=>a.remove());arrows=[];score=0;combo=0;speed=3;missed=0;updateScore();comboElem.style.display="none";overPanel.style.display="none";}
-function start(){reset();started=true;music.play();interval=setInterval(()=>{if(!paused)createArrow();},500);}
-function createArrow(){const i=Math.floor(Math.random()*4),arrow=document.createElement("div");arrow.classList.add("arrow");arrow.textContent=symbols[i];arrow.dataset.key=keys[i];arrow.style.left=(i*25+5)+"%";arrow.style.top="-60px";game.appendChild(arrow);arrows.push(arrow);}
-function move(){arrows.forEach((a,i)=>{let t=parseInt(a.style.top);a.style.top=t+speed+"px";if(t>game.clientHeight){a.remove();arrows.splice(i,1);combo=0;missed++;updateScore();if(missed>=maxMiss)end();}});}
-function check(k){arrows.forEach((a,i)=>{let t=parseInt(a.style.top);if(k===a.dataset.key&&t>=hitStart&&t<=hitEnd){a.remove();arrows.splice(i,1);score+=10+combo*2;combo++;updateScore();showCombo();const s=document.querySelector(`.socket[data-key='${k}']`);s.classList.add("active");setTimeout(()=>s.classList.remove("active"),150);}});}
-function updateScore(){scoreElem.textContent=`Puntaje: ${score} | Combo: ${combo}`;}
-function showCombo(){if(combo>=3){comboElem.style.display="block";comboElem.textContent=`COMBO x${combo}!`;setTimeout(()=>comboElem.style.display="none",2000);}}
-function end(){started=false;paused=true;music.pause();clearInterval(interval);arrows.forEach(a=>a.remove());overPanel.style.display="flex";finalScore.textContent=`Puntuación = ${score}`;finalCombo.textContent=`Combo alcanzado = ${combo}`;}
-startBtn.onclick=()=>{started?reset():start();};
-pauseBtn.onclick=()=>{paused=!paused;paused?music.pause():music.play();};
-musicBtn.onclick=()=>{music.muted=!music.muted;musicBtn.innerHTML=music.muted?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-volume-high"></i>';};
-retryBtn.onclick=()=>start();
-setInterval(()=>{if(started&&!paused)move();},20);
-document.addEventListener("keydown",e=>check(e.key));
-document.querySelectorAll("#chooseControls button").forEach(b=>b.addEventListener("click",()=>check(b.dataset.key)));
+// === COREOGRAFÍAS ===
+const selectorBaile=document.getElementById('selector-baile');
+const contVideos=document.getElementById('videos-coreografia');
+const videosPorBaile={
+'baile1':['<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPes2bgAP6o/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14"></blockquote>'],
+'baile2':['https://www.instagram.com/p/VIDEO3/embed/']
+};
+selectorBaile.addEventListener('change',()=>{
+  const val=selectorBaile.value;
+  contVideos.innerHTML='';
+  if(videosPorBaile[val]){
+   videosPorBaile[val].forEach(code=>{
+  const card=document.createElement('div'); 
+  card.className='video-card';
+  card.innerHTML = code; 
+  contVideos.appendChild(card);
+});
+if (window.instgrm) { window.instgrm.Embeds.process(); }
+  }
+});
+
+// === JUEGO ===
+const gameElem=document.getElementById("game");
+const scoreDisplayElem=document.getElementById("score");
+const comboDisplayElem=document.getElementById("comboDisplay");
+const socketsElem=document.querySelectorAll(".socket");
+const keysArr=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
+const symbolsArr=["↑","↓","←","→"];
+let arrowsArr=[], scoreVal=0, comboVal=0, speedVal=3;
+let gameStarted=false, paused=false, missedCount=0, maxMisses=20;
+const musicElem=document.getElementById("music");
+const hitStartVal=gameElem.clientHeight-80;
+const hitEndVal=gameElem.clientHeight-30;
+const BPM=120; const msPerBeat=60000/BPM;
+let arrowInterval=null;
+let maxComboPlayer=0;
+
+const startRestartBtn=document.getElementById("startRestartBtn");
+const pauseBtn=document.getElementById("pauseBtn");
+const musicBtn=document.getElementById("musicBtn");
+const chooseButtons=document.querySelectorAll("#chooseControls button");
+const gameOverPanel=document.getElementById("game-over-panel");
+const finalScore=document.getElementById("final-score");
+const finalCombo=document.getElementById("final-combo");
+const retryBtn=document.getElementById("retryBtn");
+
+function resetGame(){
+  arrowsArr.forEach(a=>a.remove());
+  arrowsArr=[]; scoreVal=0; comboVal=0; speedVal=3; missedCount=0;
+  updateScore(); updateComboDisplay(); 
+  comboDisplayElem.style.display="none";
+  comboDisplayElem.style.color="#ffd700";
+  document.body.style.filter = 'none';
+  clearInterval(arrowInterval);
+  paused=false;
+  gameOverPanel.style.display="none";
+  maxComboPlayer=0;
+}
+
+function startGame(){
+  resetGame();
+  gameStarted=true;
+  arrowInterval=setInterval(()=>{ if(!paused) createArrow(); }, msPerBeat);
+  musicElem.play();
+  startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i>';
+}
+
+startRestartBtn.addEventListener("click",()=>{ startGame(); });
+pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
+musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>'; });
+retryBtn.addEventListener("click",()=>{ startGame(); });
+
+function createArrow(){ 
+  const index=Math.floor(Math.random()*4); 
+  const key=keysArr[index]; 
+  const symbol=symbolsArr[index]; 
+  const arrow=document.createElement("div"); 
+  arrow.classList.add("arrow"); 
+  arrow.textContent=symbol; 
+  arrow.dataset.key=key; 
+  const socketRect=socketsElem[index].getBoundingClientRect(); 
+  const gameRect=gameElem.getBoundingClientRect(); 
+  arrow.style.left=socketRect.left-gameRect.left+"px"; 
+  arrow.style.top="-60px"; 
+  gameElem.appendChild(arrow); 
+  arrowsArr.push(arrow);
+}
+
+function moveArrows(){ 
+  arrowsArr.forEach((arrow,i)=>{
+    let top=parseInt(arrow.style.top); 
+    arrow.style.top=top+speedVal+"px"; 
+    if(top>gameElem.clientHeight){ 
+      arrow.remove(); arrowsArr.splice(i,1); comboVal=0; missedCount++; updateComboDisplay(); 
+      scoreVal=Math.max(0,scoreVal); updateScore(); 
+      if(missedCount>=maxMisses){ endGameLose(); } 
+    }
+  });
+}
+
+function createParticles(x,y){for(let i=0;i<12;i++){const p=document.createElement("div");p.classList.add("particles");p.style.left=x+"px";p.style.top=y+"px";gameElem.appendChild(p);setTimeout(()=>p.remove(),800);}}
+
+function checkArrow(keyPressed){
+  arrowsArr.forEach((arrow,i)=>{
+    let top=parseInt(arrow.style.top);
+    if(keyPressed===arrow.dataset.key && top>=hitStartVal && top<=hitEndVal){
+      arrow.classList.add("hit");
+      setTimeout(()=>arrow.remove(),300);
+      arrowsArr.splice(i,1);
+      scoreVal+=10+comboVal*2;
+      comboVal+=1;
+      if(comboVal>maxComboPlayer){ maxComboPlayer=comboVal; }
+      updateScore();
+      updateComboDisplay();
+      const idx=keysArr.indexOf(keyPressed);
+      const socket=socketsElem[idx];
+      createParticles(parseInt(socket.offsetLeft)+socket.offsetWidth/2, top+25);
+      socket.classList.add("active");
+      setTimeout(()=>socket.classList.remove("active"),200);
+      speedVal+=0.05;
+      if(comboVal>=5){ document.body.style.filter = `hue-rotate(${Math.random()*360}deg) saturate(${1+comboVal/5}) brightness(${1+comboVal/10})`; }
+    }
+  });
+}
+
+function updateComboDisplay(){ 
+  if(comboVal>=3){ 
+    comboDisplayElem.style.display="block"; 
+    comboDisplayElem.textContent=`COMBO x${comboVal}!`; 
+    comboDisplayElem.style.opacity=1; 
+    setTimeout(()=>comboDisplayElem.style.opacity=0,3000);
+  }else comboDisplayElem.style.display="none";
+}
+
+function updateScore(){ 
+  scoreDisplayElem.textContent=`Puntaje: ${scoreVal} | Combo: ${comboVal} | Flechas restantes: ${maxMisses - missedCount}`;
+}
+
+chooseButtons.forEach(btn=>{ btn.addEventListener("click",()=>{ checkArrow(btn.dataset.key); }); });
+document.addEventListener("keydown",(e)=>{ checkArrow(e.key); });
+setInterval(()=>{ if(gameStarted && !paused) moveArrows(); },20);
+
+function endGameLose(){
+  gameStarted=false; paused=true; musicElem.pause(); arrowsArr.forEach(a=>a.remove()); arrowsArr=[];
+  clearInterval(arrowInterval);
+  comboDisplayElem.style.display="none";
+  gameOverPanel.style.display="flex";
+  finalScore.textContent = `Puntuación = ${scoreVal}`;
+  finalCombo.textContent = `Combo alcanzado = ${maxComboPlayer}`;
+  document.body.style.filter = 'hue-rotate(0deg) saturate(1) brightness(1)';
+}
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
 </body>

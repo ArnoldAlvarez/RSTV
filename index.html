@@ -43,7 +43,7 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 #chooseControls button{border-radius:10px;width:65px;height:65px;border:2px solid #d4af37;background:#111;color:#fff;font-size:1.5rem;transition:0.3s;touch-action:manipulation;}
 #chooseControls button:hover{box-shadow:0 0 10px #ffd700;transform:scale(1.1);}
 
-/* === PANEL FINAL MODIFICADO === */
+/* === PANEL FINAL NEGRO CON LETRAS BLANCAS === */
 #game-over-panel{
   position:absolute;
   top:50%;
@@ -79,11 +79,17 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
   color:#000;
   box-shadow:0 0 15px #ffd700;
 }
-@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.active{transform:translateX(0)}.menu-toggle{display:block;} main{margin-left:0;width:100%;}}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.active{transform:translateX(0)}
+  .menu-toggle{display:block;}
+  main{margin-left:0;width:100%;}
+}
 </style>
 </head>
-
 <body>
+
 <button class="menu-toggle">☰</button>
 <div class="sidebar">
 <h2>RSTV</h2>
@@ -135,7 +141,6 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 </div>
 <div id="comboDisplay">COMBO!</div>
 
-<!-- PANEL FINAL NEGRO -->
 <div id="game-over-panel">
 <h2>¡Juego Terminado!</h2>
 <p id="final-score">Puntuación = 0</p>
@@ -168,6 +173,171 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
 </div>
 </section>
 
+<script>
+// === MENÚ LATERAL ===
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    if(window.innerWidth<=768) document.querySelector('.sidebar').classList.remove('active');
+  });
+});
+document.querySelector('.menu-toggle').addEventListener('click',()=>{
+  document.querySelector('.sidebar').classList.toggle('active');
+});
+
+// === COREOGRAFÍAS ===
+const selectorBaile=document.getElementById('selector-baile');
+const contVideos=document.getElementById('videos-coreografia');
+const videosPorBaile={
+'baile1':['<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPes2bgAP6o/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14"></blockquote>'],
+'baile2':['https://www.instagram.com/p/VIDEO3/embed/']
+};
+selectorBaile.addEventListener('change',()=>{
+  const val=selectorBaile.value;
+  contVideos.innerHTML='';
+  if(videosPorBaile[val]){
+   videosPorBaile[val].forEach(code=>{
+  const card=document.createElement('div'); 
+  card.className='video-card';
+  card.innerHTML = code; 
+  contVideos.appendChild(card);
+});
+if (window.instgrm) { window.instgrm.Embeds.process(); }
+  }
+});
+
+// === JUEGO ===
+const gameElem=document.getElementById("game");
+const scoreDisplayElem=document.getElementById("score");
+const comboDisplayElem=document.getElementById("comboDisplay");
+const socketsElem=document.querySelectorAll(".socket");
+const keysArr=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
+const symbolsArr=["↑","↓","←","→"];
+let arrowsArr=[], scoreVal=0, comboVal=0, speedVal=3;
+let gameStarted=false, paused=false, missedCount=0, maxMisses=20;
+const musicElem=document.getElementById("music");
+const hitStartVal=gameElem.clientHeight-80;
+const hitEndVal=gameElem.clientHeight-30;
+const BPM=120; const msPerBeat=60000/BPM;
+let arrowInterval=null;
+let maxComboPlayer=0;
+
+const startRestartBtn=document.getElementById("startRestartBtn");
+const pauseBtn=document.getElementById("pauseBtn");
+const musicBtn=document.getElementById("musicBtn");
+const chooseButtons=document.querySelectorAll("#chooseControls button");
+const gameOverPanel=document.getElementById("game-over-panel");
+const finalScore=document.getElementById("final-score");
+const finalCombo=document.getElementById("final-combo");
+const retryBtn=document.getElementById("retryBtn");
+
+function resetGame(){
+  arrowsArr.forEach(a=>a.remove());
+  arrowsArr=[]; scoreVal=0; comboVal=0; speedVal=3; missedCount=0;
+  updateScore(); updateComboDisplay(); 
+  comboDisplayElem.style.display="none";
+  comboDisplayElem.style.color="#ffd700";
+  document.body.style.filter = 'none';
+  clearInterval(arrowInterval);
+  paused=false;
+  gameOverPanel.style.display="none";
+  maxComboPlayer=0;
+}
+
+function startGame(){
+  resetGame();
+  gameStarted=true;
+  arrowInterval=setInterval(()=>{ if(!paused) createArrow(); }, msPerBeat);
+  musicElem.play();
+  startRestartBtn.innerHTML='<i class="fa-solid fa-rotate-right"></i>';
+}
+
+startRestartBtn.addEventListener("click",()=>{ startGame(); });
+pauseBtn.addEventListener("click",()=>{ paused=!paused; paused?musicElem.pause():musicElem.play(); });
+musicBtn.addEventListener("click",()=>{ musicElem.muted=!musicElem.muted; musicBtn.innerHTML = musicElem.muted ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>'; });
+retryBtn.addEventListener("click",()=>{ startGame(); });
+
+function createArrow(){ 
+  const index=Math.floor(Math.random()*4); 
+  const key=keysArr[index]; 
+  const symbol=symbolsArr[index]; 
+  const arrow=document.createElement("div"); 
+  arrow.classList.add("arrow"); 
+  arrow.textContent=symbol; 
+  arrow.dataset.key=key; 
+  const socketRect=socketsElem[index].getBoundingClientRect(); 
+  const gameRect=gameElem.getBoundingClientRect(); 
+  arrow.style.left=socketRect.left-gameRect.left+"px"; 
+  arrow.style.top="-60px"; 
+  gameElem.appendChild(arrow); 
+  arrowsArr.push(arrow);
+}
+
+function moveArrows(){ 
+  arrowsArr.forEach((arrow,i)=>{
+    let top=parseInt(arrow.style.top); 
+    arrow.style.top=top+speedVal+"px"; 
+    if(top>gameElem.clientHeight){ 
+      arrow.remove(); arrowsArr.splice(i,1); comboVal=0; missedCount++; updateComboDisplay(); 
+      scoreVal=Math.max(0,scoreVal); updateScore(); 
+      if(missedCount>=maxMisses){ endGameLose(); } 
+    }
+  });
+}
+
+function createParticles(x,y){for(let i=0;i<12;i++){const p=document.createElement("div");p.classList.add("particles");p.style.left=x+"px";p.style.top=y+"px";gameElem.appendChild(p);setTimeout(()=>p.remove(),800);}}
+
+function checkArrow(keyPressed){
+  arrowsArr.forEach((arrow,i)=>{
+    let top=parseInt(arrow.style.top);
+    if(keyPressed===arrow.dataset.key && top>=hitStartVal && top<=hitEndVal){
+      arrow.classList.add("hit");
+      setTimeout(()=>arrow.remove(),300);
+      arrowsArr.splice(i,1);
+      scoreVal+=10+comboVal*2;
+      comboVal+=1;
+      if(comboVal>maxComboPlayer){ maxComboPlayer=comboVal; }
+      updateScore();
+      updateComboDisplay();
+      const idx=keysArr.indexOf(keyPressed);
+      const socket=socketsElem[idx];
+      createParticles(parseInt(socket.offsetLeft)+socket.offsetWidth/2, top+25);
+      socket.classList.add("active");
+      setTimeout(()=>socket.classList.remove("active"),200);
+      speedVal+=0.05;
+      if(comboVal>=5){ document.body.style.filter = `hue-rotate(${Math.random()*360}deg) saturate(${1+comboVal/5}) brightness(${1+comboVal/10})`; }
+    }
+  });
+}
+
+function updateComboDisplay(){ 
+  if(comboVal>=3){ 
+    comboDisplayElem.style.display="block"; 
+    comboDisplayElem.textContent=`COMBO x${comboVal}!`; 
+    comboDisplayElem.style.opacity=1; 
+    setTimeout(()=>comboDisplayElem.style.opacity=0,3000);
+  }else comboDisplayElem.style.display="none";
+}
+
+function updateScore(){ 
+  scoreDisplayElem.textContent=`Puntaje: ${scoreVal} | Combo: ${comboVal} | Flechas restantes: ${maxMisses - missedCount}`;
+}
+
+chooseButtons.forEach(btn=>{ btn.addEventListener("click",()=>{ checkArrow(btn.dataset.key); }); });
+document.addEventListener("keydown",(e)=>{ checkArrow(e.key); });
+setInterval(()=>{ if(gameStarted && !paused) moveArrows(); },20);
+
+function endGameLose(){
+  gameStarted=false; paused=true; musicElem.pause(); arrowsArr.forEach(a=>a.remove()); arrowsArr=[];
+  clearInterval(arrowInterval);
+  comboDisplayElem.style.display="none";
+  gameOverPanel.style.display="flex";
+  finalScore.textContent = `Puntuación = ${scoreVal}`;
+  finalCombo.textContent = `Combo alcanzado = ${maxComboPlayer}`;
+  document.body.style.filter = 'hue-rotate(0deg) saturate(1) brightness(1)';
+}
+</script>
 <script async src="//www.instagram.com/embed.js"></script>
 </body>
 </html>

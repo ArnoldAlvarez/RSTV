@@ -86,6 +86,63 @@ p{max-width:650px;color:#ccc;line-height:1.7;font-size:1.1em;transition:all 0.5s
   .menu-toggle{display:block;}
   main{margin-left:0;width:100%;}
 }
+
+  /* ===== SECCIÓN NOSOTROS ===== */
+#nosotros {
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+  text-align: center;
+  padding: 70px 20px;
+  color: #fff;
+}
+
+#nosotros h1 {
+  font-size: 2.5em;
+  color: #fdd835;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Contenedor de miembros */
+#nosotros .team {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+/* Cada miembro */
+#nosotros .member {
+  width: 180px;
+  transition: transform 0.3s ease;
+}
+
+/* Imágenes circulares con borde dorado */
+#nosotros .member img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;             /* 🔵 Hace la imagen circular */
+  object-fit: cover;              /* Evita deformación */
+  border: 3px solid #fdd835;      /* ✨ Borde dorado */
+  box-shadow: 0 0 20px #fdd83580; /* 🌟 Brillo dorado suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Efecto al pasar el mouse o al hacer clic */
+#nosotros .member img:hover,
+#nosotros .member img:focus {
+  transform: scale(1.1);           /* 🔍 Aumenta un poquito */
+  box-shadow: 0 0 40px #fdd835cc;  /* 💛 Brillo más fuerte */
+}
+
+/* Texto debajo de cada miembro */
+#nosotros .member p {
+  margin-top: 10px;
+  color: #ccc;
+  font-size: 0.9em;
+  font-style: italic;
+}
 </style>
 </head>
 <body>
